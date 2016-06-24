@@ -8,7 +8,7 @@ from collections import Counter
 import random
 from matplotlib import pyplot as plt
 
-data_dir = '/Users/zhangmingjie/Documents/Github/dcgan_tensorflow/mnist'
+data_dir = '/Users/zhangmingjie/Documents/Github/dcgan_tensorflow/data/mnist'
 def mnist():
     fd = open(os.path.join(data_dir,'train-images-idx3-ubyte'))
     loaded = np.fromfile(file=fd,dtype=np.uint8)
