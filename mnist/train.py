@@ -4,10 +4,10 @@ import pandas as pd
 import numpy as np
 from model import *
 from util import *
-from load import mnist_with_valid_set
+from loadx import mnist_with_valid_set
 
 n_epochs = 100
-learning_rate = 0.0002
+learning_rate = 0.00002
 batch_size = 128
 image_shape = [28,28,1]
 dim_z = 100
@@ -63,7 +63,7 @@ for epoch in range(n_epochs):
         Ys = OneHot(trY[start:end])
         Zs = np.random.uniform(-1, 1, size=[batch_size, dim_z]).astype(np.float32)
 
-        if np.mod( iterations, k ) != 0:
+        if np.mod(iterations, k) != 0:
             _, gen_loss_val = sess.run(
                     [train_op_gen, g_cost_tf],
                     feed_dict={
@@ -93,7 +93,7 @@ for epoch in range(n_epochs):
         print "Average P(real)=", p_real_val.mean()
         print "Average P(gen)=", p_gen_val.mean()
 
-        if np.mod(iterations, 200) == 0:
+        if np.mod(iterations, 20) == 0:
             generated_samples = sess.run(
                     image_tf_sample,
                     feed_dict={
@@ -101,7 +101,7 @@ for epoch in range(n_epochs):
                         Y_tf_sample:Y_np_sample
                         })
             generated_samples = (generated_samples + 1.)/2.
-            save_visualization(generated_samples, (14,14), save_path='./vis_self/sample_'+str(iterations/200)+'.jpg')
+            save_visualization(generated_samples, (14,14), save_path='./vis_code/sample_'+str(iterations/20)+'.jpg')
 
         iterations += 1
 
