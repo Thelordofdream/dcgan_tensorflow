@@ -6,8 +6,8 @@ from model import *
 from util import *
 from loadx import mnist_with_valid_set
 
-n_epochs = 500
-learning_rate = 0.0001
+n_epochs = 10000
+learning_rate = 0.00015
 batch_size = 128
 image_shape = [28,28,1]
 dim_z = 100
