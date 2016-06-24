@@ -11,8 +11,8 @@ from collections import Counter
 import random
 from matplotlib import pyplot as plt
 
-data_dir = '/Users/zhangmingjie/Documents/Github/dcgan_tensorflow/data/mnist/data/'
-fr = open('code.txt')
+data_dir = '/Users/zhangmingjie/Documents/Github/dcgan_tensorflow/data/mnist/data1/'
+fr = open('code1.txt')
 code = [inst.strip().split(' ')[1].decode('utf-8') for inst in fr.readlines()]
 
 

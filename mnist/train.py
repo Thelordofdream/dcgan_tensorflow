@@ -6,8 +6,8 @@ from model import *
 from util import *
 from loadx import mnist_with_valid_set
 
-n_epochs = 100
-learning_rate = 0.00002
+n_epochs = 500
+learning_rate = 0.0001
 batch_size = 128
 image_shape = [28,28,1]
 dim_z = 100
@@ -93,7 +93,7 @@ for epoch in range(n_epochs):
         print "Average P(real)=", p_real_val.mean()
         print "Average P(gen)=", p_gen_val.mean()
 
-        if np.mod(iterations, 20) == 0:
+        if np.mod(iterations, 100) == 0:
             generated_samples = sess.run(
                     image_tf_sample,
                     feed_dict={
@@ -101,7 +101,7 @@ for epoch in range(n_epochs):
                         Y_tf_sample:Y_np_sample
                         })
             generated_samples = (generated_samples + 1.)/2.
-            save_visualization(generated_samples, (14,14), save_path='./vis_code/sample_'+str(iterations/20)+'.jpg')
+            save_visualization(generated_samples, (14, 14), save_path='./vis_code1/sample_'+str(iterations/100)+'.jpg')
 
         iterations += 1
 
