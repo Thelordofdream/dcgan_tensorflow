@@ -10,7 +10,7 @@ import random
 from matplotlib import pyplot as plt
 
 sys.path.append('..')
-data_dir = '/Users/zhangmingjie/Documents/Github/dcgan_tensorflow/data/mnist/data1/'
+data_dir = '/Users/zhangmingjie/Documents/Github/dcgan_tensorflow/data/mnist/data/'
 
 
 def mnist():
