@@ -3,6 +3,7 @@ import scipy.misc
 import ipdb
 import numpy as np
 
+
 def OneHot(X, n=None, negative_class=0.):
     X = np.asarray(X).flatten()
     if n is None:
@@ -28,6 +29,7 @@ def crop_resize(image_path, resize_shape=(64,64)):
         resized_image = resized_image[cropping_length:cropping_length+resize_shape[0], :]
 
     return resized_image/127.5 - 1
+
 
 def save_visualization(X, (nh, nw), save_path='./vis/sample.jpg'):
     h,w = X.shape[1], X.shape[2]
