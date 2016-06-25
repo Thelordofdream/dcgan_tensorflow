@@ -11,9 +11,7 @@ from collections import Counter
 import random
 from matplotlib import pyplot as plt
 
-data_dir = '/Users/zhangmingjie/Documents/Github/dcgan_tensorflow/data/mnist/data/'
-fr = open('code.txt')
-code = [inst.strip().split(' ')[1].decode('utf-8') for inst in fr.readlines()]
+data_dir = '/Users/zhangmingjie/Documents/Github/dcgan_tensorflow/data/mnist/data1/'
 
 
 def mnist():
@@ -21,24 +19,27 @@ def mnist():
     teY = []
     countx = 0
     county = 0
-    for i in range(10):
-        files = os.listdir(data_dir + code[i])
+    folders = os.listdir(data_dir)
+    for folder in folders:
+        if folder == '.DS_Store':
+            continue
+        files = os.listdir(data_dir + folder)
         m = len(files)
         m = int(m/3.0*2)
         for file in files[:m]:
             if file == '.DS_Store':
                 continue
-            image = Image.open(data_dir + code[i] + '/' + file)
+            image = Image.open(data_dir + folder + '/' + file)
             Im = array(image).reshape((1, 28 * 28))
             Im = 255 - Im
             if countx == 0:
                 trX = Im
                 countx += 1
             else:
-                trX = np.row_stack((trX,Im))
-            trY.append(i)
+                trX = np.row_stack((trX, Im))
+            trY.append(folder)
         for file in files[m:]:
-            image = Image.open(data_dir + code[i] + '/' + file)
+            image = Image.open(data_dir + folder + '/' + file)
             Im = array(image).reshape((1, 28 * 28))
             Im = 255 - Im
             if county == 0:
@@ -46,7 +47,7 @@ def mnist():
                 county += 1
             else:
                 teX = np.row_stack((teX, Im))
-            teY.append(i)
+            teY.append(folder)
 
     trY = np.asarray(trY)
     teY = np.asarray(teY)

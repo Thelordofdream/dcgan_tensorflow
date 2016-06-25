@@ -9,25 +9,25 @@ from load import mnist_with_valid_set
 n_epochs = 10000
 learning_rate = 0.00015
 batch_size = 128
-image_shape = [28,28,1]
+image_shape = [28, 28, 1]
 dim_z = 100
 dim_W1 = 1024
 dim_W2 = 128
 dim_W3 = 64
 dim_channel = 1
 
-visualize_dim=196
+visualize_dim = 196
 
 trX, vaX, teX, trY, vaY, teY = mnist_with_valid_set()
 
 dcgan_model = DCGAN(
-        batch_size=batch_size,
-        image_shape=image_shape,
-        dim_z=dim_z,
-        dim_W1=dim_W1,
-        dim_W2=dim_W2,
-        dim_W3=dim_W3,
-        )
+    batch_size=batch_size,
+    image_shape=image_shape,
+    dim_z=dim_z,
+    dim_W1=dim_W1,
+    dim_W2=dim_W2,
+    dim_W3=dim_W3,
+)
 
 Z_tf, Y_tf, image_tf, d_cost_tf, g_cost_tf, p_real, p_gen = dcgan_model.build_model()
 sess = tf.InteractiveSession()
@@ -43,8 +43,8 @@ Z_tf_sample, Y_tf_sample, image_tf_sample = dcgan_model.samples_generator(batch_
 
 tf.initialize_all_variables().run()
 
-Z_np_sample = np.random.uniform(-1, 1, size=(visualize_dim,dim_z))
-Y_np_sample = OneHot( np.random.randint(10, size=[visualize_dim]))
+Z_np_sample = np.random.uniform(-1, 1, size=(visualize_dim, dim_z))
+Y_np_sample = OneHot(np.random.randint(10, size=[visualize_dim]))
 iterations = 0
 k = 2
 
@@ -57,20 +57,21 @@ for epoch in range(n_epochs):
     for start, end in zip(
             range(0, len(trY), batch_size),
             range(batch_size, len(trY), batch_size)
-            ):
+    ):
 
-        Xs = trX[start:end].reshape( [-1, 28, 28, 1]) / 255.
+        Xs = trX[start:end].reshape([-1, 28, 28, 1]) / 255.
         Ys = OneHot(trY[start:end])
         Zs = np.random.uniform(-1, 1, size=[batch_size, dim_z]).astype(np.float32)
 
         if np.mod(iterations, k) != 0:
             _, gen_loss_val = sess.run(
-                    [train_op_gen, g_cost_tf],
-                    feed_dict={
-                        Z_tf:Zs,
-                        Y_tf:Ys
-                        })
-            discrim_loss_val, p_real_val, p_gen_val = sess.run([d_cost_tf,p_real,p_gen], feed_dict={Z_tf:Zs, image_tf:Xs, Y_tf:Ys})
+                [train_op_gen, g_cost_tf],
+                feed_dict={
+                    Z_tf: Zs,
+                    Y_tf: Ys
+                })
+            discrim_loss_val, p_real_val, p_gen_val = sess.run([d_cost_tf, p_real, p_gen],
+                                                               feed_dict={Z_tf: Zs, image_tf: Xs, Y_tf: Ys})
             print "=========== updating G =========="
             print "iteration:", iterations
             print "gen loss:", gen_loss_val
@@ -78,13 +79,14 @@ for epoch in range(n_epochs):
 
         else:
             _, discrim_loss_val = sess.run(
-                    [train_op_discrim, d_cost_tf],
-                    feed_dict={
-                        Z_tf:Zs,
-                        Y_tf:Ys,
-                        image_tf:Xs
-                        })
-            gen_loss_val, p_real_val, p_gen_val = sess.run([g_cost_tf, p_real, p_gen], feed_dict={Z_tf:Zs, image_tf:Xs, Y_tf:Ys})
+                [train_op_discrim, d_cost_tf],
+                feed_dict={
+                    Z_tf: Zs,
+                    Y_tf: Ys,
+                    image_tf: Xs
+                })
+            gen_loss_val, p_real_val, p_gen_val = sess.run([g_cost_tf, p_real, p_gen],
+                                                           feed_dict={Z_tf: Zs, image_tf: Xs, Y_tf: Ys})
             print "=========== updating D =========="
             print "iteration:", iterations
             print "gen loss:", gen_loss_val
@@ -95,13 +97,13 @@ for epoch in range(n_epochs):
 
         if np.mod(iterations, 100) == 0:
             generated_samples = sess.run(
-                    image_tf_sample,
-                    feed_dict={
-                        Z_tf_sample:Z_np_sample,
-                        Y_tf_sample:Y_np_sample
-                        })
-            generated_samples = (generated_samples + 1.)/2.
-            save_visualization(generated_samples, (14, 14), save_path='./vis_code1/sample_'+str(iterations/100)+'.jpg')
+                image_tf_sample,
+                feed_dict={
+                    Z_tf_sample: Z_np_sample,
+                    Y_tf_sample: Y_np_sample
+                })
+            generated_samples = (generated_samples + 1.) / 2.
+            save_visualization(generated_samples, (14, 14),
+                               save_path='./vis_code2/sample_' + str(iterations / 100) + '.jpg')
 
         iterations += 1
-
