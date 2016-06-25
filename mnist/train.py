@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from model import *
 from util import *
-from loadx import mnist_with_valid_set
+from load import mnist_with_valid_set
 
 n_epochs = 10000
 learning_rate = 0.00015

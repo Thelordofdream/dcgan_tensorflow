@@ -3,33 +3,56 @@ sys.path.append('..')
 
 import numpy as np
 import os
+from numpy import *
+from os import listdir
+from PIL import Image
 from time import time
 from collections import Counter
 import random
 from matplotlib import pyplot as plt
 
-data_dir = '/Users/zhangmingjie/Documents/Github/dcgan_tensorflow/data/mnist'
+data_dir = '/Users/zhangmingjie/Documents/Github/dcgan_tensorflow/data/mnist/data/'
+fr = open('code.txt')
+code = [inst.strip().split(' ')[1].decode('utf-8') for inst in fr.readlines()]
+
+
 def mnist():
-    fd = open(os.path.join(data_dir,'train-images-idx3-ubyte'))
-    loaded = np.fromfile(file=fd,dtype=np.uint8)
-    trX = loaded[16:].reshape((60000,28*28)).astype(float)
-
-    fd = open(os.path.join(data_dir,'train-labels-idx1-ubyte'))
-    loaded = np.fromfile(file=fd,dtype=np.uint8)
-    trY = loaded[8:].reshape((60000))
-
-    fd = open(os.path.join(data_dir,'t10k-images-idx3-ubyte'))
-    loaded = np.fromfile(file=fd,dtype=np.uint8)
-    teX = loaded[16:].reshape((10000,28*28)).astype(float)
-
-    fd = open(os.path.join(data_dir,'t10k-labels-idx1-ubyte'))
-    loaded = np.fromfile(file=fd,dtype=np.uint8)
-    teY = loaded[8:].reshape((10000))
+    trY = []
+    teY = []
+    countx = 0
+    county = 0
+    for i in range(10):
+        files = os.listdir(data_dir + code[i])
+        m = len(files)
+        m = int(m/3.0*2)
+        for file in files[:m]:
+            if file == '.DS_Store':
+                continue
+            image = Image.open(data_dir + code[i] + '/' + file)
+            Im = array(image).reshape((1, 28 * 28))
+            Im = 255 - Im
+            if countx == 0:
+                trX = Im
+                countx += 1
+            else:
+                trX = np.row_stack((trX,Im))
+            trY.append(i)
+        for file in files[m:]:
+            image = Image.open(data_dir + code[i] + '/' + file)
+            Im = array(image).reshape((1, 28 * 28))
+            Im = 255 - Im
+            if county == 0:
+                teX = Im
+                county += 1
+            else:
+                teX = np.row_stack((teX, Im))
+            teY.append(i)
 
     trY = np.asarray(trY)
     teY = np.asarray(teY)
 
     return trX, teX, trY, teY
+
 
 def mnist_with_valid_set():
     trX, teX, trY, teY = mnist()
@@ -39,9 +62,9 @@ def mnist_with_valid_set():
     trX = trX[train_inds]
     trY = trY[train_inds]
     #trX, trY = shuffle(trX, trY)
-    vaX = trX[50000:]
-    vaY = trY[50000:]
-    trX = trX[:50000]
-    trY = trY[:50000]
+    vaX = teX[:]
+    vaY = teY[:]
+    trX = trX[:]
+    trY = trY[:]
 
     return trX, vaX, teX, trY, vaY, teY
