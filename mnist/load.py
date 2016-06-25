@@ -23,7 +23,7 @@ def mnist():
     for folder in folders:
         if folder == '.DS_Store':
             continue
-        print 'loading images of label' + folder + '...'
+        print 'loading images of label ' + folder + ' ...'
         files = os.listdir(data_dir + folder)
         m = len(files)
         m = int(m / 3.0 * 2)
