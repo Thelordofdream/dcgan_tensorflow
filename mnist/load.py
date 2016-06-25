@@ -1,6 +1,4 @@
 import sys
-sys.path.append('..')
-
 import numpy as np
 import os
 from numpy import *
@@ -11,6 +9,7 @@ from collections import Counter
 import random
 from matplotlib import pyplot as plt
 
+sys.path.append('..')
 data_dir = '/Users/zhangmingjie/Documents/Github/dcgan_tensorflow/data/mnist/data1/'
 
 
@@ -25,7 +24,7 @@ def mnist():
             continue
         files = os.listdir(data_dir + folder)
         m = len(files)
-        m = int(m/3.0*2)
+        m = int(m / 3.0 * 2)
         for file in files[:m]:
             if file == '.DS_Store':
                 continue
@@ -62,7 +61,7 @@ def mnist_with_valid_set():
     np.random.shuffle(train_inds)
     trX = trX[train_inds]
     trY = trY[train_inds]
-    #trX, trY = shuffle(trX, trY)
+    # trX, trY = shuffle(trX, trY)
     vaX = teX[:]
     vaY = teY[:]
     trX = trX[:]
