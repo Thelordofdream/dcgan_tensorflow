@@ -19,9 +19,11 @@ def mnist():
     countx = 0
     county = 0
     folders = os.listdir(data_dir)
+    print "========= loading images ========"
     for folder in folders:
         if folder == '.DS_Store':
             continue
+        print 'loading images of label' + folder + '...'
         files = os.listdir(data_dir + folder)
         m = len(files)
         m = int(m / 3.0 * 2)
@@ -36,7 +38,7 @@ def mnist():
                 countx += 1
             else:
                 trX = np.row_stack((trX, Im))
-            trY.append(folder)
+            trY.append(int(folder))
         for file in files[m:]:
             image = Image.open(data_dir + folder + '/' + file)
             Im = array(image).reshape((1, 28 * 28))
@@ -46,7 +48,7 @@ def mnist():
                 county += 1
             else:
                 teX = np.row_stack((teX, Im))
-            teY.append(folder)
+            teY.append(int(folder))
 
     trY = np.asarray(trY)
     teY = np.asarray(teY)
