@@ -14,7 +14,9 @@ data_dir = '/Users/zhangmingjie/Documents/Github/dcgan_tensorflow/data/mnist/dat
 
 
 def mnist():
+    trX0 = []
     trY = []
+    teX0 = []
     teY = []
     countx = 0
     county = 0
@@ -33,23 +35,17 @@ def mnist():
             image = Image.open(data_dir + folder + '/' + file)
             Im = array(image).reshape((1, 28 * 28))
             Im = 255 - Im
-            if countx == 0:
-                trX = Im
-                countx += 1
-            else:
-                trX = np.row_stack((trX, Im))
+            trX0.extend(Im.tolist())
             trY.append(int(folder))
         for file in files[m:]:
             image = Image.open(data_dir + folder + '/' + file)
             Im = array(image).reshape((1, 28 * 28))
             Im = 255 - Im
-            if county == 0:
-                teX = Im
-                county += 1
-            else:
-                teX = np.row_stack((teX, Im))
+            teX0.extend(Im.tolist())
             teY.append(int(folder))
 
+    trX = np.asarray(mat(trX0))
+    teX = np.asarray(mat(teX0))
     trY = np.asarray(trY)
     teY = np.asarray(teY)
 
