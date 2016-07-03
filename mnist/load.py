@@ -9,8 +9,8 @@ from collections import Counter
 import random
 from matplotlib import pyplot as plt
 
-sys.path.append('..')
-data_dir = '/Users/zhangmingjie/Documents/Github/dcgan_tensorflow/data/mnist/data/'
+
+data_dir = '../data/mnist/data/'
 
 
 def mnist():
